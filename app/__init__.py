@@ -13,6 +13,11 @@ kmodel = getModel()
 parser = reqparse.RequestParser()
 parser.add_argument("image_b64")
 
+@app.route('/')
+@app.route('/index')
+def index():
+    return "Hello World"
+
 class Generate(Resource):
     def get(self):
         predict(kmodel)
@@ -31,4 +36,4 @@ class Generate(Resource):
         #return send_file(strIO,mimetype='image/png')
 
 api.add_resource(Generate,'/gen')
-app.run(port='5000')
+app.run(host="0.0.0.0",port='5000')

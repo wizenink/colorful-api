@@ -3,17 +3,23 @@ FROM ubuntu:18.04
 MAINTAINER David Maseda Neira "[david.maseda@udc.es]"
 
 RUN apt-get update -y && \
-    apt-get install -y python3-pip python3-dev
+    apt-get install -y python3-pip python3-dev wget
 
-COPY ./requirements.txt /app/requirements.txt
+COPY ./requirements.txt /server/requirements.txt
 
-WORKDIR /app
+WORKDIR /server
+RUN mkdir /server/models
+#ADD http://davidmaseda.online/pix2pix.tar.gz /server/models/
+RUN wget http://davidmaseda.online/pix2pix.tar.gz -O /server/models/pix2pix.tar.gz
+RUN ls -liah /server/models
+RUN tar -xvzf  /server/models/pix2pix.tar.gz -C /server/models
+#RUN rm /server/models/pix2pix.tar.gz
 
 RUN pip3 install --upgrade pip
 RUN pip install -r requirements.txt
 
-COPY . /app
+COPY . /server
 
-ENTRYPOINT [ "python3" ]
+ENTRYPOINT [ "python3.6" ]
 
 CMD [ "main.py" ]
