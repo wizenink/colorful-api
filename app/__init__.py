@@ -13,11 +13,6 @@ kmodel = getModel()
 parser = reqparse.RequestParser()
 parser.add_argument("image_b64")
 
-@app.route('/')
-@app.route('/index')
-def index():
-    return "Hello World"
-
 class Generate(Resource):
     def get(self):
         predict(kmodel)

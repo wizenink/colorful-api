@@ -42,7 +42,7 @@ def load(image_file):
 
 
 def getModel():
-    return  tf.keras.models.load_model("/home/mads/davidmaseda/dev/colorful-api/models/test2_pix2pix_lambda5/300")
+    return  tf.keras.models.load_model("models/test2_pix2pix_lambda5/300")
 
 def predict(model,image_base64):
     input_image,real_image = load2(image_base64)
