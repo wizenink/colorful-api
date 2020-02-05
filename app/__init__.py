@@ -38,4 +38,4 @@ class Generate(Resource):
         #return send_file(strIO,mimetype='image/png')
 
 api.add_resource(Generate,'/gen')
-app.run(host="0.0.0.0",port='5000')
+app.run(host="0.0.0.0",port='5050')
