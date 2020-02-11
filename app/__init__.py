@@ -34,18 +34,21 @@ class Model(Resource):
         global modelname
         global kmodel
         if model in modelList:
-            modelname = model
-            kmodel = getModel(model)
-            return {"model":model},200
+            try:
+                kmodel = getModel(model)
+                modelname = model
+                return {"model":model},200
+            except Exception:
+                return {"Model empty"},404
         else:
-            return {},404
+            return {"Model not existent"},400
 
 
 class Generate(Resource):
     def get(self):
         predict(kmodel)
         return send_file('res.jpg',mimetype='image/jpg')
-    def post(self,model):
+    def post(self):
         args = parser.parse_args()
         result = predict(kmodel,args["image_b64"])
         strIO = BytesIO()
