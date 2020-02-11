@@ -9,7 +9,9 @@ app = Flask(__name__)
 CORS(app)
 api = Api(app)
 
-kmodel = getModel()
+modelname = "pix2pix_lambda5"
+modelList = getModels()
+kmodel = getModel(modelname)
 
 
 parser = reqparse.RequestParser()
@@ -20,11 +22,30 @@ parser.add_argument("image_b64")
 def index():
     return "Hello World"
 
+class ListModels(Resource):
+    def get(self):
+        return make_response(jsonify(getModels()))
+
+class Model(Resource):
+    def get(self):
+        global modelname
+        return make_response(modelname)
+    def post(self,model):
+        global modelname
+        global kmodel
+        if model in modelList:
+            modelname = model
+            kmodel = getModel(model)
+            return {"model":model},200
+        else:
+            return {},404
+
+
 class Generate(Resource):
     def get(self):
         predict(kmodel)
         return send_file('res.jpg',mimetype='image/jpg')
-    def post(self):
+    def post(self,model):
         args = parser.parse_args()
         result = predict(kmodel,args["image_b64"])
         strIO = BytesIO()
@@ -38,4 +59,6 @@ class Generate(Resource):
         #return send_file(strIO,mimetype='image/png')
 
 api.add_resource(Generate,'/gen')
+api.add_resource(ListModels,'/list')
+api.add_resource(Model,'/model','/model/<model>')
 app.run(host="0.0.0.0",port='5050')

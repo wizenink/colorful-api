@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import skimage.io
 from skimage import img_as_ubyte
 import base64
+import os
 
 def load2(image_b64):
     image_string = tf.io.decode_base64(image_b64)
@@ -40,9 +41,12 @@ def load(image_file):
     return input_image,real_image
 
 
+def getModels():
+    return os.listdir("models")
 
-def getModel():
-    return  tf.keras.models.load_model("models/test2_pix2pix_lambda5/300")
+def getModel(model):
+    return  tf.keras.models.load_model(f"models/{model}")
+    #return tf.keras.models.Model()
 
 def predict(model,image_base64):
     input_image,real_image = load2(image_base64)
