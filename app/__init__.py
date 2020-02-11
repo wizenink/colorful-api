@@ -33,7 +33,7 @@ class Generate(Resource):
         #return base64.b64encode(resultb64.tobytes()).decode('utf-8')
         #response = make_response(send_file(strIO,mimetype='image/png'))
         response = base64.b64encode(strIO.getvalue())
-        print(response)
+        #print(response)
         return make_response(response)
         #return send_file(strIO,mimetype='image/png')
 

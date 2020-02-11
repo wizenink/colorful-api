@@ -46,6 +46,7 @@ def getModel():
 
 def predict(model,image_base64):
     input_image,real_image = load2(image_base64)
+    print(input_image.shape)
     image = tf.expand_dims(input_image,0)
     noise = np.random.normal(size=(1,image.shape[1],image.shape[2],1))
     result = model.predict([image,noise],use_multiprocessing=False,verbose=1)
