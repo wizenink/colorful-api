@@ -10,7 +10,7 @@ def load2(image_b64):
     image = tf.image.decode_image(image_string)
     image = tf.cast(image,tf.float32)
     image = tf.divide(image,255.0)
-    #image = tf.image.resize_with_crop_or_pad(image,256,256)
+    image = tf.image.resize_with_crop_or_pad(image,256,256)
     image = tf.image.rgb_to_yuv(image)
     input_image = tf.expand_dims(image[:,:,0],-1)
     real_image = image[:,:,1:3]
