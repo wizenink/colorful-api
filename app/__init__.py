@@ -1,10 +1,12 @@
 from flask import Flask,request,jsonify,send_file,make_response
 from flask_restful import Api,Resource,reqparse
+from flask_cors import CORS
 from app.tensorflow_model import *
 import base64
 from io import StringIO,BytesIO
 from skimage.io import imsave
 app = Flask(__name__)
+CORS(app)
 api = Api(app)
 
 kmodel = getModel()
@@ -36,4 +38,4 @@ class Generate(Resource):
         #return send_file(strIO,mimetype='image/png')
 
 api.add_resource(Generate,'/gen')
-app.run(host="0.0.0.0",port='5000')
+app.run(host="0.0.0.0",port='5050')

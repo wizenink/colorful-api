@@ -3,11 +3,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import skimage.io
 from skimage import img_as_ubyte
-
+import base64
 
 def load2(image_b64):
+    image_b64 += '=' * (-len(image_b64) % 4)  # restore stripped '='s
     image_string = tf.io.decode_base64(image_b64)
-    image = tf.image.decode_image(image_string)
+    image = tf.image.decode_jpeg(image_string,channels=3,try_recover_truncated=True)
     image = tf.cast(image,tf.float32)
     image = tf.divide(image,255.0)
     image = tf.image.resize_with_crop_or_pad(image,256,256)
