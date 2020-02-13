@@ -9,7 +9,9 @@ app = Flask(__name__)
 CORS(app)
 api = Api(app)
 
-kmodel = getModel()
+modelname = "nolambda"
+modelList = getModels()
+kmodel = getModel(modelname)
 
 
 parser = reqparse.RequestParser()
@@ -19,6 +21,28 @@ parser.add_argument("image_b64")
 @app.route('/index')
 def index():
     return "Hello World"
+
+class ListModels(Resource):
+    def get(self):
+        return make_response(jsonify(getModels()))
+
+class Model(Resource):
+    def get(self):
+        global modelname
+        return make_response(modelname)
+    def post(self,model):
+        global modelname
+        global kmodel
+        if model in modelList:
+            try:
+                kmodel = getModel(model)
+                modelname = model
+                return {"model":model},200
+            except Exception:
+                return {"Model empty"},404
+        else:
+            return {"Model not existent"},400
+
 
 class Generate(Resource):
     def get(self):
@@ -38,4 +62,6 @@ class Generate(Resource):
         #return send_file(strIO,mimetype='image/png')
 
 api.add_resource(Generate,'/gen')
+api.add_resource(ListModels,'/list')
+api.add_resource(Model,'/model','/model/<model>')
 app.run(host="0.0.0.0",port='5050')
