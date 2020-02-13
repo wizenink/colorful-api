@@ -9,7 +9,7 @@ app = Flask(__name__)
 CORS(app)
 api = Api(app)
 
-modelname = "pix2pix_lambda5"
+modelname = "nolambda"
 modelList = getModels()
 kmodel = getModel(modelname)
 
