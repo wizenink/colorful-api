@@ -7,6 +7,7 @@ import base64
 import os
 
 def load2(image_b64):
+    image_b64 += '=' * (-len(image_b64) % 4)  # restore stripped '='s
     image_string = tf.io.decode_base64(image_b64)
     image = tf.image.decode_image(image_string)
     image = tf.cast(image,tf.float32)
