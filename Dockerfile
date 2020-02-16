@@ -10,10 +10,10 @@ COPY ./requirements.txt /server/requirements.txt
 WORKDIR /server
 RUN mkdir /server/models
 #ADD http://davidmaseda.online/pix2pix.tar.gz /server/models/
-RUN wget http://davidmaseda.online/pix2pix.tar.gz -O /server/models/pix2pix.tar.gz
+RUN wget http://davidmaseda.online/pix2pix.tar.gz -O /server/pix2pix.tar.gz
 RUN ls -liah /server/models
-RUN tar -xvzf  /server/models/pix2pix.tar.gz -C /server/models
-#RUN rm /server/models/pix2pix.tar.gz
+RUN tar -xvzf  /server/pix2pix.tar.gz -C /server/models
+RUN rm /server/pix2pix.tar.gz
 
 RUN pip3 install --upgrade pip
 RUN pip install -r requirements.txt
